@@ -6,7 +6,7 @@
 /*   By: mfabbric <mfabbric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:58:27 by mfabbric          #+#    #+#             */
-/*   Updated: 2023/10/09 11:24:17 by mfabbric         ###   ########.fr       */
+/*   Updated: 2023/07/17 13:28:22 by mfabbric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,23 @@
 
 void	first_first(t_stack *stack)
 {
-	while (stack->indexb != 0 && stack->indexa != 0)
-	{
-		rr(stack);
-		stack->indexa--;
-		stack->indexb--;
-	}
-	while (stack->indexa != 0)
+	while (stack->indexa > 0)
 	{
 		ra(stack);
 		stack->indexa--;
 	}
-	while (stack->indexb != 0)
+	while (stack->indexb > 0)
 	{
 		rb(stack);
 		stack->indexb--;
 	}
+	if (stack->indexa == 0 && stack->indexb == 0)
+		pb(stack);
 }
 
 void	first_second(t_stack *stack)
 {
-	while (stack->indexa != 0)
+	while (stack->indexa > 0)
 	{
 		ra(stack);
 		stack->indexa--;
@@ -44,6 +40,8 @@ void	first_second(t_stack *stack)
 		rrb(stack);
 		stack->indexb++;
 	}
+	if (stack->indexa == 0 && stack->indexb == stack->lunghezza_b)
+		pb(stack);
 }
 
 void	second_first(t_stack *stack)
@@ -53,62 +51,42 @@ void	second_first(t_stack *stack)
 		rra(stack);
 		stack->indexa++;
 	}
-	while (stack->indexb != 0)
+	while (stack->indexb > 0)
 	{
 		rb(stack);
 		stack->indexb--;
 	}
+	if (stack->indexa == stack->lunghezza && stack->indexb == 0)
+		pb(stack);
 }
 
 void	second_second(t_stack *stack)
 {
-	int	i;
-
-	i = -1;
-	if (stack->lunghezza - stack->indexa > stack->lunghezza_b - stack->indexb)
+	while (stack->indexa < stack->lunghezza)
 	{
-		while (++i < stack->lunghezza_b - stack->indexb)
-			rrr(stack);
-		i = -1;
-		while (++i < (stack->lunghezza - stack->indexa)
-			- (stack->lunghezza_b - stack->indexb))
-			rra(stack);
+		rra(stack);
+		stack->indexa++;
 	}
-	else
+	while (stack->indexb < stack->lunghezza_b)
 	{
-		i = -1;
-		while (++i < stack->lunghezza - stack->indexa)
-			rrr(stack);
-		i = -1;
-		while (++i < (stack->lunghezza_b - stack->indexb)
-			- (stack->lunghezza - stack->indexa))
-			rrb(stack);
+		rrb(stack);
+		stack->indexb++;
 	}
+	if (stack->indexa == stack->lunghezza && stack->indexb == stack->lunghezza_b)
+		pb(stack);
 }
 
-void	move(t_stack *stack, int s)
+void	move(t_stack *stack)
 {
-	int	half_a;
-	int	half_b;
-
-	if (stack->lunghezza % 2 == 0)
-		half_a = stack->lunghezza / 2;
-	else
-		half_a = stack->lunghezza / 2 + 1;
-	if (stack->lunghezza_b % 2 == 0)
-		half_b = stack->lunghezza_b / 2;
-	else
-		half_b = stack->lunghezza_b / 2 + 1;
-	if (stack->indexa < half_a && stack->indexb < half_b)
+	if (stack->indexa <= (stack->lunghezza / 2) && stack->indexb <= (stack->lunghezza / 2))
 		first_first(stack);
-	else if (stack->indexa >= half_a && stack->indexb >= half_b)
-		second_second(stack);
-	else if (stack->indexa < half_a && stack->indexb >= half_b)
+	else if (stack->indexa <= (stack->lunghezza / 2)
+			&& stack->indexb > (stack->lunghezza / 2))
 		first_second(stack);
-	else if (stack->indexa >= half_a && stack->indexb < half_b)
+	else if (stack->indexa > (stack->lunghezza / 2)
+			&& stack->indexb <= (stack->lunghezza / 2))
 		second_first(stack);
-	if (s == 1)
-		pb(stack);
-	else
-		pa(stack);
+	else if (stack->indexa > (stack->lunghezza / 2)
+			&& stack->indexb > (stack->lunghezza / 2))	
+		second_second(stack);
 }

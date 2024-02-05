@@ -6,7 +6,7 @@
 /*   By: mfabbric <mfabbric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:04:25 by mfabbric          #+#    #+#             */
-/*   Updated: 2023/10/12 18:06:30 by mfabbric         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:06:58 by mfabbric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,15 @@ static int	ft_number(char *num)
 	return (1);
 }
 
-char	**fill_stack_values(t_stack *stack, int argc, char **argv)
+char	**fill_stack_values(int argc, char **argv)
 {
 	long int	nb;
 	int			i;
+	char		**tmp;
 
 	nb = 0;
 	i = 1;
-	stack->tempo = ft_calloc(sizeof(char *), argc);
+	tmp = ft_calloc(sizeof(char*), argc);
 	while (i < argc)
 	{
 		nb = ft_atoi(argv[i]);
@@ -57,14 +58,14 @@ char	**fill_stack_values(t_stack *stack, int argc, char **argv)
 			ft_close();
 		if (ft_contains(nb, argv, i))
 			ft_close();
-		stack->tempo[i] = argv[i];
+		tmp[i] = argv[i];
 		i++;
 	}
-	stack->tempo[i] = 0;
-	return (stack->tempo);
+	tmp[i] = 0;
+	return (tmp);
 }
 
-void	ft_check_args(t_stack *stack, int argc, char **argv)
+void	ft_check_args(int argc, char **argv)
 {
 	int		i;
 	long	tmp;
@@ -74,7 +75,7 @@ void	ft_check_args(t_stack *stack, int argc, char **argv)
 	if (argc == 2)
 		args = ft_split(argv[1], ' ');
 	else
-		args = fill_stack_values(stack, argc, argv);
+		args = fill_stack_values(argc, argv);
 	while (args[i])
 	{
 		tmp = ft_atoi(args[i]);
@@ -88,4 +89,4 @@ void	ft_check_args(t_stack *stack, int argc, char **argv)
 	}
 	if (argc == 2)
 		ft_free(args);
-}
+}	

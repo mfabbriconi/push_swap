@@ -6,11 +6,51 @@
 /*   By: mfabbric <mfabbric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 14:10:56 by roberto           #+#    #+#             */
-/*   Updated: 2023/10/12 15:49:52 by mfabbric         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:45:07 by mfabbric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
+
+int	getmin(t_stack *stack)
+{
+	int		i;
+	int		min;
+	int		posmin;
+
+	i = -1;
+	posmin = 0;
+	min = stack->stack_a[0];
+	while (++i < stack->lunghezza)
+	{
+		if (min > stack->stack_a[i])
+		{
+			min = stack->stack_a[i];
+			posmin = i;
+		}
+	}
+	return (posmin);
+}
+
+int	getmax(t_stack *stack)
+{
+	int		i;
+	int		max;
+	int		posmax;
+
+	i = -1;
+	posmax = 0;
+	max = stack->stack_a[0];
+	while(++i < stack->lunghezza)
+	{
+		if (max < stack->stack_a[i])
+		{
+			max = stack->stack_a[i];
+			posmax = i;
+		}	
+	}
+	return(posmax);
+}
 
 int	is_sorted(t_stack *stack)
 {
@@ -28,14 +68,12 @@ int	is_sorted(t_stack *stack)
 
 void	three_sort(t_stack *stack)
 {
-	get_maxmin(stack);
-	if (0 == stack->max_a)
+	if (stack->stack_a[0] == stack->max)
 		ra(stack);
-	if (1 == stack->max_a)
+	if (stack->stack_a[1] == stack->max)
 		rra(stack);
 	if (stack->stack_a[0] > stack->stack_a[1])
 		sa(stack);
-	get_maxmin(stack);
 }
 
 void	push_swap(t_stack *stack)

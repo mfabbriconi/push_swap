@@ -6,7 +6,7 @@
 /*   By: mfabbric <mfabbric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:18:01 by mfabbric          #+#    #+#             */
-/*   Updated: 2023/10/09 11:09:49 by mfabbric         ###   ########.fr       */
+/*   Updated: 2023/06/23 16:32:38 by mfabbric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	pa(t_stack *stack)
 	stack->lunghezza += 1;
 	stack->lunghezza_b -= 1;
 	ft_putstr("pa\n");
-	get_maxmin(stack);
 }
 
 void	pb(t_stack *stack)
@@ -46,5 +45,4 @@ void	pb(t_stack *stack)
 	stack->lunghezza -= 1;
 	stack->lunghezza_b += 1;
 	ft_putstr("pb\n");
-	get_maxmin(stack);
 }

@@ -6,7 +6,7 @@
 /*   By: mfabbric <mfabbric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 14:36:23 by mfabbric          #+#    #+#             */
-/*   Updated: 2023/10/12 18:06:45 by mfabbric         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:46:17 by mfabbric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,9 @@ int	main(int argc, char **argv)
 
 	stack.lunghezza_b = 0;
 	if (argc < 2)
-		return (0);
-	ft_check_args(&stack, argc, argv);
+		return (1);
+	ft_check_args(argc, argv);
 	initstack(&stack, argc, argv);
 	push_swap(&stack);
-	free(stack.stack_a);
-	free(stack.stack_b);
-	free(stack.tempo);
 	return (0);
 }

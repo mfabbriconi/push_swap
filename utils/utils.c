@@ -1,47 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   moves2.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfabbric <mfabbric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/17 15:47:01 by mfabbric          #+#    #+#             */
-/*   Updated: 2023/10/09 11:10:06 by mfabbric         ###   ########.fr       */
+/*   Created: 2023/05/04 15:20:59 by mfabbric          #+#    #+#             */
+/*   Updated: 2023/07/17 14:12:34 by mfabbric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-static void	rotate(int *str, int lunghezza)
+void	ft_close(void)
+{
+	write(2, "Error\n", 6);
+	exit (0);
+}
+
+void	ft_free(char **str)
 {
 	int	i;
-	int	temp;
 
 	i = 0;
-	temp = str[0];
-	while (i < lunghezza)
+	while (str[i])
+		i++;
+	while (i >= 0)
+		free(str[i--]);
+}
+
+void	ft_putstr(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
 	{
-		str[i] = str[i + 1];
+		write(1, &str[i], 1);
 		i++;
 	}
-	str[lunghezza - 1] = temp;
 }
 
-void	ra(t_stack *stack)
+int	absolute(int nb)
 {
-	rotate(stack->stack_a, stack->lunghezza);
-	ft_putstr("ra\n");
-}
-
-void	rb(t_stack *stack)
-{
-	rotate(stack->stack_b, stack->lunghezza_b);
-	ft_putstr("rb\n");
-}
-
-void	rr(t_stack *stack)
-{
-	rotate(stack->stack_a, stack->lunghezza);
-	rotate(stack->stack_b, stack->lunghezza_b);
-	ft_putstr("rr\n");
+	if (nb < 0)
+		return (nb * -1);
+	return (nb);
 }

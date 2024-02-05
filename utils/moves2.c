@@ -1,53 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   moves2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfabbric <mfabbric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/04 15:20:59 by mfabbric          #+#    #+#             */
-/*   Updated: 2023/10/12 18:10:54 by mfabbric         ###   ########.fr       */
+/*   Created: 2023/06/17 15:47:01 by mfabbric          #+#    #+#             */
+/*   Updated: 2023/06/22 17:11:19 by mfabbric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	ft_close(void)
-{
-	write(2, "Error\n", 6);
-	exit (0);
-}
-
-void	ft_free(char **str)
+static void	rotate(int *str, int lunghezza)
 {
 	int	i;
+	int temp;
 
 	i = 0;
-	if (str == NULL)
-		return ;
-	while (str[i] != NULL)
+	temp = str[0];
+	while (i < lunghezza)
 	{
-		free(str[i]);
+		str[i] = str[i + 1];
 		i++;
 	}
-	free(str);
+	str[lunghezza - 1] = temp;
 }
 
-void	ft_putstr(char *str)
+void 	ra(t_stack *stack)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		write(1, &str[i], 1);
-		i++;
-	}
+	rotate(stack->stack_a, stack->lunghezza);
+	ft_putstr("ra\n");
 }
 
-int	absolute(int nb)
+void 	rb(t_stack *stack)
 {
-	if (nb < 0)
-		return (nb * -1);
-	return (nb);
+	rotate(stack->stack_b, stack->lunghezza_b);
+	ft_putstr("rb\n");
+}
+
+void 	rr(t_stack *stack)
+{
+	rotate(stack->stack_a, stack->lunghezza);
+	rotate(stack->stack_b, stack->lunghezza_b);
+	ft_putstr("rr\n");
 }
