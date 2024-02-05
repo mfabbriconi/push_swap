@@ -6,116 +6,59 @@
 /*   By: mfabbric <mfabbric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 17:49:22 by mfabbric          #+#    #+#             */
-/*   Updated: 2023/07/17 14:39:29 by mfabbric         ###   ########.fr       */
+/*   Updated: 2023/10/09 14:48:01 by mfabbric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	max_min_insert(t_stack *stack, int i)
+void	ft_index(t_stack *stack, int i)
 {
-	if (i <= (stack->lunghezza / 2))
-	{
-		while (i > 0)
-		{
-			ra(stack);
-			i--;
-		}
-	}
-	else if (i > (stack->lunghezza / 2))
-	{
-		while (i < stack->lunghezza)
-		{
-			rra(stack);
-			i++;
-		}
-	}
-	pb(stack);
-}
+	int	j;
 
-void	middle_insert(t_stack *stack, int i, int j)
-{
-	int	tmp;
-	
-	tmp = 2147483647;
-	while (j <= stack->lunghezza_b)
+	j = 0;
+	stack->tmp_a = 0;
+	stack->tmp_b = i;
+	if (stack->stack_b[i] > stack->stack_a[stack->max_a]
+		|| stack->stack_b[i] < stack->stack_a[stack->min_a])
+		stack->tmp_a = stack->min_a;
+	while (j < stack->lunghezza - 1)
 	{
-		if (stack->stack_a[i] > stack->stack_b[j])
-		{
-			if (tmp > (stack->stack_a[i] - stack->stack_b[j]))
-			{
-				// printf("tmp: %d\n", tmp);
-				tmp = (stack->stack_a[i] - stack->stack_b[j]);
-				stack->tmp = j;
-			}
-		}
-		j++;
-	}
-	
-}
-
-void	bindex(t_stack *stack, int i, int j)
-{
-	int	tmp;
-	
-	tmp = 2147483647;
-	while (j <= stack->lunghezza_b)
-	{
-		if (stack->stack_a[i] > stack->stack_b[j])
-		{
-			if (tmp > (stack->stack_a[i] - stack->stack_b[j]))
-			{
-				tmp = (stack->stack_a[i] - stack->stack_b[j]);
-				stack->indexb = j;
-			}
-		}
+		if (stack->stack_b[i] > stack->stack_a[j]
+			&& stack->stack_b[i] < stack->stack_a[j + 1])
+			stack->tmp_a = j + 1;
 		j++;
 	}
 }
 
-int	max(t_stack *stack)
+void	bindex(t_stack *stack, int i)
 {
-	int		i;
-	int		max;
-	int		posmax;
+	int	j;
 
-	i = 0;
-	posmax = 0;
-	max = stack->stack_b[0];
-	while(++i < stack->lunghezza_b)
+	j = 0;
+	stack->tmp_b = 0;
+	stack->tmp_a = i;
+	if (stack->stack_a[i] > stack->stack_b[stack->max_b]
+		|| stack->stack_a[i] < stack->stack_b[stack->min_b])
+		stack->tmp_b = stack->max_b;
+	while (j < stack->lunghezza_b - 1)
 	{
-		if (max < stack->stack_b[i])
-		{
-			max = stack->stack_b[i];
-			posmax = i;
-		}	
+		if (stack->stack_a[i] < stack->stack_b[j]
+			&& stack->stack_a[i] > stack->stack_b[j + 1])
+			stack->tmp_b = j + 1;
+		j++;
 	}
-	return(posmax);
 }
 
 void	last(t_stack *stack)
 {
-	int		i;
-	int		posmax;
+	int	i;
 
-	posmax = max(stack);
-	i = stack->lunghezza_b;
-	if(posmax <= (stack->lunghezza_b / 2))
-	{
-		while (posmax > 0)
-		{
-			rb(stack);
-			posmax--;
-		}
-	}
+	i = -1;
+	if (stack->min_a < stack->lunghezza / 2)
+		while (++i < stack->min_a)
+			ra(stack);
 	else
-	{
-		while (posmax < stack->lunghezza_b)
-		{
-			rrb(stack);
-			posmax++;
-		}
-	}	
-	while (stack->lunghezza_b > 0)
-		pa(stack);
+		while (++i < stack->lunghezza - stack->min_a)
+			rra(stack);
 }

@@ -6,7 +6,7 @@
 /*   By: mfabbric <mfabbric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 15:20:59 by mfabbric          #+#    #+#             */
-/*   Updated: 2023/07/17 14:12:34 by mfabbric         ###   ########.fr       */
+/*   Updated: 2023/10/12 18:10:54 by mfabbric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,14 @@ void	ft_free(char **str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	if (str == NULL)
+		return ;
+	while (str[i] != NULL)
+	{
+		free(str[i]);
 		i++;
-	while (i >= 0)
-		free(str[i--]);
+	}
+	free(str);
 }
 
 void	ft_putstr(char *str)

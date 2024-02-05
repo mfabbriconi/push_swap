@@ -6,7 +6,7 @@
 /*   By: mfabbric <mfabbric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:13:14 by mfabbric          #+#    #+#             */
-/*   Updated: 2023/06/22 17:00:42 by mfabbric         ###   ########.fr       */
+/*   Updated: 2023/10/09 11:09:27 by mfabbric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	revrotate(int *str, int lunghezza)
 {
 	int	i;
-	int tmp;
+	int	tmp;
 
 	i = lunghezza - 1;
 	tmp = str[i];
@@ -28,19 +28,19 @@ static void	revrotate(int *str, int lunghezza)
 		str[i] = tmp;
 }
 
-void 	rra(t_stack *stack)
+void	rra(t_stack *stack)
 {
 	revrotate(stack->stack_a, stack->lunghezza);
 	ft_putstr("rra\n");
 }
 
-void 	rrb(t_stack *stack)
+void	rrb(t_stack *stack)
 {
 	revrotate(stack->stack_b, stack->lunghezza_b);
 	ft_putstr("rrb\n");
 }
 
-void 	rrr(t_stack *stack)
+void	rrr(t_stack *stack)
 {
 	revrotate(stack->stack_a, stack->lunghezza);
 	revrotate(stack->stack_b, stack->lunghezza_b);

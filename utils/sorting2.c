@@ -5,88 +5,109 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfabbric <mfabbric@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/28 17:58:27 by mfabbric          #+#    #+#             */
-/*   Updated: 2023/07/17 13:28:22 by mfabbric         ###   ########.fr       */
+/*   Created: 2023/10/09 14:17:42 by mfabbric          #+#    #+#             */
+/*   Updated: 2023/10/09 15:32:22 by mfabbric         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-void	first_first(t_stack *stack)
+static int	gethalf(t_stack *stack, int flag)
 {
-	while (stack->indexa > 0)
+	int	half;
+
+	if (flag == 0)
 	{
-		ra(stack);
-		stack->indexa--;
+		if (stack->lunghezza % 2 == 0)
+			half = stack->lunghezza / 2;
+		else
+			half = stack->lunghezza / 2 + 1;
 	}
-	while (stack->indexb > 0)
+	else
 	{
-		rb(stack);
-		stack->indexb--;
+		if (stack->lunghezza_b % 2 == 0)
+			half = stack->lunghezza_b / 2;
+		else
+			half = stack->lunghezza_b / 2 + 1;
 	}
-	if (stack->indexa == 0 && stack->indexb == 0)
-		pb(stack);
+	return (half);
 }
 
-void	first_second(t_stack *stack)
+static void	tmpmoves(t_stack *stack, int flag)
 {
-	while (stack->indexa > 0)
+	if (flag == 0)
 	{
-		ra(stack);
-		stack->indexa--;
+		if (stack->tmp_a == 0 || stack->tmp_mov < stack->moves)
+		{
+			stack->indexa = stack->tmp_a;
+			stack->indexb = stack->tmp_b;
+			stack->moves = stack->tmp_mov;
+		}
 	}
-	while (stack->indexb < stack->lunghezza_b)
+	else
 	{
-		rrb(stack);
-		stack->indexb++;
+		if (stack->tmp_b == 0 || stack->tmp_mov < stack->moves)
+		{
+			stack->indexa = stack->tmp_a;
+			stack->indexb = stack->tmp_b;
+			stack->moves = stack->tmp_mov;
+		}
 	}
-	if (stack->indexa == 0 && stack->indexb == stack->lunghezza_b)
-		pb(stack);
 }
 
-void	second_first(t_stack *stack)
+void	count_mv(t_stack *stack)
 {
-	while (stack->indexa < stack->lunghezza)
+	stack->half_a = gethalf(stack, 0);
+	stack->half_b = gethalf(stack, 1);
+	if (stack->tmp_a < stack->half_a && stack->tmp_b < stack->half_b)
 	{
-		rra(stack);
-		stack->indexa++;
+		if (stack->tmp_a < stack->tmp_b)
+			stack->tmp_mov = stack->tmp_b;
+		else
+			stack->tmp_mov = stack->tmp_a;
 	}
-	while (stack->indexb > 0)
+	else if (stack->tmp_a >= stack->half_a && stack->tmp_b >= stack->half_b)
 	{
-		rb(stack);
-		stack->indexb--;
+		if (stack->lunghezza - stack->tmp_a
+			> stack->lunghezza_b - stack->tmp_b)
+			stack->tmp_mov = stack->lunghezza - stack->tmp_a;
+		else
+			stack->tmp_mov = stack->lunghezza_b - stack->tmp_b;
 	}
-	if (stack->indexa == stack->lunghezza && stack->indexb == 0)
-		pb(stack);
+	else
+	{
+		if (stack->tmp_a < stack->half_a && stack->tmp_b >= stack->half_b)
+			stack->tmp_mov = stack->tmp_a + (stack->lunghezza_b - stack->tmp_b);
+		else
+			stack->tmp_mov = stack->tmp_b + (stack->lunghezza - stack->tmp_a);
+	}
+	tmpmoves(stack, 0);
 }
 
-void	second_second(t_stack *stack)
+void	count_mv_2(t_stack *stack)
 {
-	while (stack->indexa < stack->lunghezza)
+	stack->half_a = gethalf(stack, 0);
+	stack->half_b = gethalf(stack, 1);
+	if (stack->tmp_a < stack->half_a && stack->tmp_b < stack->half_b)
 	{
-		rra(stack);
-		stack->indexa++;
+		if (stack->tmp_a < stack->tmp_b)
+			stack->tmp_mov = stack->tmp_b;
+		else
+			stack->tmp_mov = stack->tmp_a;
 	}
-	while (stack->indexb < stack->lunghezza_b)
+	else if (stack->tmp_a >= stack->half_a && stack->tmp_b >= stack->half_b)
 	{
-		rrb(stack);
-		stack->indexb++;
+		if (stack->lunghezza - stack->tmp_a > stack->lunghezza_b - stack->tmp_b)
+			stack->tmp_mov = stack->lunghezza - stack->tmp_a;
+		else
+			stack->tmp_mov = stack->lunghezza_b - stack->tmp_b;
 	}
-	if (stack->indexa == stack->lunghezza && stack->indexb == stack->lunghezza_b)
-		pb(stack);
-}
-
-void	move(t_stack *stack)
-{
-	if (stack->indexa <= (stack->lunghezza / 2) && stack->indexb <= (stack->lunghezza / 2))
-		first_first(stack);
-	else if (stack->indexa <= (stack->lunghezza / 2)
-			&& stack->indexb > (stack->lunghezza / 2))
-		first_second(stack);
-	else if (stack->indexa > (stack->lunghezza / 2)
-			&& stack->indexb <= (stack->lunghezza / 2))
-		second_first(stack);
-	else if (stack->indexa > (stack->lunghezza / 2)
-			&& stack->indexb > (stack->lunghezza / 2))	
-		second_second(stack);
+	else
+	{
+		if (stack->tmp_a < stack->half_a && stack->tmp_b >= stack->half_b)
+			stack->tmp_mov = stack->tmp_a + (stack->lunghezza_b - stack->tmp_b);
+		else
+			stack->tmp_mov = stack->tmp_b + (stack->lunghezza - stack->tmp_a);
+	}
+	tmpmoves(stack, 1);
 }
